@@ -1,0 +1,15 @@
+---
+/** "AH" monogram: a peak-shaped A with an evergreen triangle, beside a teal H. */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<svg class={className} viewBox="35 37 882 882" aria-hidden="true" focusable="false">
+  <rect x="35" y="37" width="882" height="882" rx="150" fill="#121f33" />
+  <path d="M127 665H228L353 433L618 918H715L390 314H318Z" fill="#fff" />
+  <path d="M286 665H420L353 541Z" fill="#45965a" />
+  <path d="M497 314H580V440H716V314H800V665H716V522H580V603L497 447Z" fill="#58a795" />
+</svg>

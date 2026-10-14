@@ -1,0 +1,21 @@
+---
+/**
+ * Renders a case-study value, or a visible TODO chip when the value is a
+ * placeholder ("TODO …") or missing, so unconfirmed facts never read as final.
+ */
+interface Props {
+  value?: string;
+}
+
+const { value } = Astro.props;
+const isTodo = !value || /^TODO\b/i.test(value.trim());
+const label = value?.replace(/^TODO\s*[—-]?\s*/i, '').trim();
+---
+
+{
+  isTodo ? (
+    <span class="todo">TODO{label ? `: ${label}` : ''}</span>
+  ) : (
+    <Fragment>{value}</Fragment>
+  )
+}

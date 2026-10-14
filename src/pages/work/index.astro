@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getSortedWork } from '../../lib/work';
+
+const projects = await getSortedWork();
+const hasDrafts = projects.some((p) => p.data.status === 'draft');
+---
+
+<BaseLayout
+  title="Work"
+  description="Case studies from Anthony Horn covering campus-scale websites, design systems, and UX research."
+>
+  <div class="page">
+    <header class="intro">
+      <p class="eyebrow">Work</p>
+      <h1>Selected work</h1>
+      <p class="intro__lead">
+        Campus-scale websites, design systems, and UX research. Each case study walks through the
+        problem, my role, the decisions along the way, and what came of it.
+      </p>
+      {
+        hasDrafts && (
+          <p class="intro__note">
+            Case studies marked <span class="todo">Draft · unverified</span> are still being written
+            up and checked for accuracy.
+          </p>
+        )
+      }
+    </header>
+  </div>
+
+  <div class="lower">
+    <div class="page">
+      <ul role="list" class="grid">
+        {
+          projects.map((project, i) => (
+            <li>
+              <ProjectCard
+                project={project}
+                variant={i}
+                headingLevel="h2"
+                showOrganization
+                sizes="(min-width: 72rem) 34rem, (min-width: 48rem) 45vw, 92vw"
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: var(--content-max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .intro {
+    display: grid;
+    gap: var(--space-4);
+    max-width: 44rem;
+    padding-block: var(--space-8) var(--space-7);
+  }
+
+  .intro h1 {
+    font-size: var(--text-hero);
+    line-height: var(--leading-snug);
+    letter-spacing: -0.025em;
+  }
+
+  .intro__lead {
+    max-width: 38rem;
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  .intro__note {
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+  }
+
+  /* Matches the homepage's darker band below the hero. */
+  .lower {
+    padding-block: var(--space-7) var(--space-9);
+    background: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+  }
+
+  .grid > li {
+    display: grid;
+  }
+
+  @media (min-width: 48rem) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

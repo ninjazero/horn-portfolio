@@ -1,0 +1,90 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import AboutTeaser from '../components/AboutTeaser.astro';
+import Icon from '../components/Icon.astro';
+
+const featured = (await getCollection('work', ({ data }) => data.featuredOrder !== undefined))
+  .sort((a, b) => a.data.featuredOrder! - b.data.featuredOrder!)
+  .slice(0, 4);
+---
+
+<BaseLayout>
+  <div class="page">
+    <Hero />
+  </div>
+
+  <div class="lower">
+    <div class="page">
+      <section class="featured" aria-labelledby="featured-title">
+        <div class="section-head">
+          <h2 id="featured-title" class="eyebrow">Featured work</h2>
+          <a class="text-link" href="/work/">View all work <Icon name="arrow-right" size={16} /></a>
+        </div>
+        <ul role="list" class="featured__grid">
+          {
+            featured.map((project, i) => (
+              <li>
+                <ProjectCard project={project} variant={i} />
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+
+      <AboutTeaser />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: var(--content-max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* Slightly darker band behind everything below the hero. */
+  .lower {
+    padding-block: var(--space-7) var(--space-9);
+    background: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .featured {
+    margin-bottom: var(--space-8);
+  }
+
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+
+  .featured__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+  }
+
+  .featured__grid > li {
+    display: grid;
+  }
+
+  @media (min-width: 40rem) {
+    .featured__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 90rem) {
+    .featured__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

@@ -1,0 +1,134 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import banner from '../assets/portfolio-mountain-banner.jpg';
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__copy">
+    <p class="eyebrow">Leadership · Development · Design · Research</p>
+    <h1 id="hero-title" class="hero__title">
+      Making Delightful Experiences Through <span class="hero__accent">Interactive Media</span>.
+    </h1>
+    <p class="hero__lead">
+      I connect development, design, research, and process so teams can deliver meaningful web
+      experiences — envisioning not just usable, but enjoyable.
+    </p>
+    <div class="hero__actions">
+      <a class="button button--primary" href="/work/">
+        Explore my work <Icon name="arrow-right" size={18} />
+      </a>
+      <a class="button button--secondary" href="/contact/">Get in touch</a>
+    </div>
+  </div>
+
+  <div class="hero__art tail-mask">
+    <Image
+      src={banner}
+      alt=""
+      widths={[400, 532]}
+      sizes="(min-width: 72rem) 32rem, 92vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-7);
+    align-items: center;
+    padding-block: var(--space-7) var(--space-8);
+  }
+
+  .hero__copy {
+    display: grid;
+    gap: var(--space-5);
+    max-width: 44rem;
+  }
+
+  .hero__title {
+    font-size: var(--text-hero);
+    line-height: var(--leading-snug);
+    letter-spacing: -0.025em;
+  }
+
+  .hero__accent {
+    color: var(--color-accent);
+  }
+
+  .hero__lead {
+    max-width: 34rem;
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  /* Only shown alongside the copy at the two-column breakpoint. */
+  .hero__art {
+    display: none;
+    aspect-ratio: 16 / 9;
+    /* Shadow follows the clipped shape; box-shadow would be clipped away. */
+    filter: drop-shadow(0 18px 24px rgb(14 27 51 / 0.14));
+  }
+
+  .hero__art :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 45% 50%;
+  }
+
+  @media (min-width: 72rem) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-4);
+      min-height: min(40rem, 78vh);
+    }
+
+    .hero__art {
+      display: block;
+      aspect-ratio: 5 / 3;
+      --tail-radius: 2.5rem;
+      --tail-size: 4rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__copy > *,
+    .hero__art {
+      animation: rise 600ms var(--ease-out) both;
+    }
+
+    .hero__copy > :nth-child(2) {
+      animation-delay: 60ms;
+    }
+
+    .hero__copy > :nth-child(3) {
+      animation-delay: 120ms;
+    }
+
+    .hero__copy > :nth-child(4) {
+      animation-delay: 180ms;
+    }
+
+    .hero__art {
+      animation-delay: 120ms;
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+</style>
